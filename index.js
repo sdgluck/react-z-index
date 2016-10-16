@@ -116,13 +116,16 @@ class ZIndex extends React.Component {
   }
 
   render () {
+    const style = this.props.style || {}
+
     const props = Object.assign({}, this.props, {
-      style: Object.assign({}, this.props.style || {}, {
+      style: Object.assign({}, style, {
+        position: style.position || 'relative',
         zIndex: this.zIndex + (this.props.important ? ' !important' : '')
       })
     })
 
-    return React.createElement('span', props)
+    return React.createElement('div', props)
   }
 }
 

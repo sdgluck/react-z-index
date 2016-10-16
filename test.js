@@ -97,6 +97,7 @@ test('throws with more than one prop', (t) => {
 test('prop "top"', (t) => {
   const rendered = shallow(c({ top: true }))
   t.equal(rendered.props().style.zIndex, String(TOP + 1))
+  t.equal(rendered.props().style.position, 'relative')
   t.end()
 })
 
