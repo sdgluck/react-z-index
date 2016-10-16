@@ -1,0 +1,44 @@
+{
+  "name": "react-z-index",
+  "version": "0.0.1",
+  "description": "Easily manage global component z-index",
+  "main": "index.js",
+  "jsnext:main": "index.js",
+  "scripts": {
+    "lint": "standard index.js",
+    "test": "node test.js",
+    "prepublish": "npm run -s lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sdgluck/react-z-index.git"
+  },
+  "author": "Sam Gluck <sdgluck@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sdgluck/react-z-index/issues"
+  },
+  "keywords": [
+    "react",
+    "zIndex",
+    "z-index",
+    "z",
+    "index",
+    "top",
+    "bottom",
+    "before",
+    "after"
+  ],
+  "homepage": "https://github.com/sdgluck/react-z-index#readme",
+  "devDependencies": {
+    "babel-eslint": "^7.0.0",
+    "enzyme": "^2.4.1",
+    "rewire": "^2.5.2",
+    "rimraf": "^2.5.2",
+    "standard": "^7.1.2",
+    "tape": "^4.5.1"
+  },
+  "standard": {
+    "parser": "babel-eslint"
+  }
+}
