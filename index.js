@@ -5,7 +5,6 @@ const React = require('react')
 module.exports = (function () {
   // Available ZIndex component properties
   const PROP_TYPES = {
-    fn: React.PropTypes.func,
     top: React.PropTypes.bool,
     bottom: React.PropTypes.bool,
     index: React.PropTypes.oneOfType([
