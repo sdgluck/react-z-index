@@ -4,7 +4,7 @@ const React = require('react')
 
 const indexes = []
 
-let map = null
+let zmap = null
 let id = 0
 
 function unrecognisedVarError (value) {
@@ -14,7 +14,7 @@ function unrecognisedVarError (value) {
 function makeZIndex (value, modifier, props) {
   if (
     (modifier === 'above' || modifier === 'below') &&
-    (typeof value === 'string' && !map[value])
+    (typeof value === 'string' && !zmap[value])
   ) {
     throw unrecognisedVarError(value)
   }
@@ -24,7 +24,7 @@ function makeZIndex (value, modifier, props) {
   switch (modifier) {
     case 'above':
       if (typeof value === 'string') {
-        return map[value] + 1
+        return zmap[value] + 1
       } else if (typeof value === 'number') {
         return value + 1
       }
@@ -32,28 +32,28 @@ function makeZIndex (value, modifier, props) {
 
     case 'below':
       if (typeof value === 'string') {
-        return map[value] - 1
+        return zmap[value] - 1
       } else if (typeof value === 'number') {
         return value - 1
       }
       throw new Error(`Expecting string or number for "below", got ${typeof value}.`)
 
     case 'top':
-      keys = Object.keys(map)
+      keys = Object.keys(zmap)
       let max = keys.length ? -Infinity : 0
       for (let i = 0, len = keys.length; i < len; i++) {
-        if (map[keys[i]] > max) {
-          max = map[keys[i]]
+        if (zmap[keys[i]] > max) {
+          max = zmap[keys[i]]
         }
       }
       return max + 1
 
     case 'bottom':
-      keys = Object.keys(map)
+      keys = Object.keys(zmap)
       let min = keys.length ? +Infinity : 0
       for (let i = 0, len = keys.length; i < len; i++) {
-        if (map[keys[i]] < min) {
-          min = map[keys[i]]
+        if (zmap[keys[i]] < min) {
+          min = zmap[keys[i]]
         }
       }
       return min - 1
@@ -71,10 +71,10 @@ function makeZIndex (value, modifier, props) {
       return value
 
     case 'string':
-      if (!map[value]) {
+      if (!zmap[value]) {
         throw unrecognisedVarError(value)
       }
-      return map[value]
+      return zmap[value]
   }
 }
 
@@ -89,12 +89,12 @@ class ZIndex extends React.Component {
     const prop = this.getProp(props)
 
     this._id = id++
-    this.zIndex = map[this._id] = makeZIndex(props[prop], prop, props)
+    this.zIndex = zmap[this._id] = makeZIndex(props[prop], prop, props)
   }
 
   componentWillReceiveProps () {
     const prop = this.getProp(this.props)
-    this.zIndex = map[this._id] = makeZIndex(this.props[prop], prop, this.props)
+    this.zIndex = zmap[this._id] = makeZIndex(this.props[prop], prop, this.props)
   }
 
   getProp (props) {
@@ -166,7 +166,7 @@ ZIndex.setVars = function setVars (vars, opts) {
   let customIndexes = 0
 
   if (Array.isArray(vars)) {
-    map = vars.reverse().reduce((map, name, i) => {
+    zmap = vars.reverse().reduce((zmap, name, i) => {
       if (typeof name !== 'string' && !Array.isArray(name)) {
         throw new Error(`Expecting var to be array or string, got "${typeof name}".`)
       }
@@ -181,29 +181,29 @@ ZIndex.setVars = function setVars (vars, opts) {
         if (opts.warnDuplicate && indexes.indexOf(name[1]) !== -1) {
           console.warn(`ZIndex: duplicate index ${name[1]} from "${name[0]}".`)
         } else if (opts.warnDuplicate) {
-          indexes.push(map[name[0]])
+          indexes.push(zmap[name[0]])
         }
 
-        map[name[0]] = name[1]
+        zmap[name[0]] = name[1]
 
         customIndexes += 1
       } else {
-        map[name] = i === 0 ? opts.start : Math.max(
+        zmap[name] = i === 0 ? opts.start : Math.max(
           Math.floor(opts.start + (opts.step * (i - customIndexes))),
           opts.start
         )
 
-        if (opts.warnDuplicate && indexes.indexOf(map[name]) !== -1) {
+        if (opts.warnDuplicate && indexes.indexOf(zmap[name]) !== -1) {
           console.warn(`ZIndex: duplicate index ${name[1]} from "${name}".`)
         } else if (opts.warnDuplicate) {
-          indexes.push(map[name])
+          indexes.push(zmap[name])
         }
       }
 
-      return map
+      return zmap
     }, {})
   } else {
-    map = vars
+    zmap = vars
 
     if (opts.warnDuplicate) {
       Object.keys(vars).forEach((name) => {
@@ -212,7 +212,7 @@ ZIndex.setVars = function setVars (vars, opts) {
         if (indexes.indexOf(index) !== -1) {
           console.warn(`ZIndex: duplicate index ${index} from "${name}".`)
         } else {
-          indexes.push(map[name])
+          indexes.push(zmap[name])
         }
       })
     }
@@ -234,20 +234,20 @@ ZIndex.setVar = function setVar (name, value) {
     indexes.push(value)
   }
 
-  map = map || {}
+  zmap = zmap || {}
 
-  map[name] = value
+  zmap[name] = value
 
   return value
 }
 
 ZIndex.__clear__ = function clear () {
-  map = null
+  zmap = null
 }
 
 Object.defineProperty(ZIndex, 'vars', {
   enumerable: true,
-  get: () => map
+  get: () => zmap
 })
 
 module.exports = ZIndex
