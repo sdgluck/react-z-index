@@ -25,6 +25,11 @@ ZIndex.__set__({
   }
 })
 
+test('throws if accessing vars before initialised', (t) => {
+  t.throws(() => ZIndex.vars, /initialise/i)
+  t.end()
+})
+
 test('initialise values map w/ array', (t) => {
   ZIndex.setVars([
     'Toppest',

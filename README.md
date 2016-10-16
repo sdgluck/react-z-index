@@ -105,7 +105,7 @@ ZIndex.setVar('Modal', 400)
 
 Each component should use exactly one of the following props:
 
-- __index__ {String|Number} Set the zIndex to be above the value
+- __index__ {String|Number} Set the zIndex explicitly or by reference to a predefined value
 - __above__ {String|Number} Set the zIndex to be above the value
 - __below__ {String|Number} Set the zIndex to be below the value
 - __fn__ {Function} Derive the zIndex

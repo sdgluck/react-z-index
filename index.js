@@ -151,7 +151,7 @@ ZIndex.setVars = function setVars (vars, opts) {
     step: 10
   }, opts)
 
-  if (ZIndex.vars) {
+  if (zmap) {
     throw new Error('Called ZIndex.setVars() more than once.')
   } else if (typeof vars !== 'object' && !Array.isArray(vars)) {
     throw new Error(`Expecting vars to be object or array, got "${typeof vars}".`)
@@ -247,7 +247,12 @@ ZIndex.__clear__ = function clear () {
 
 Object.defineProperty(ZIndex, 'vars', {
   enumerable: true,
-  get: () => zmap
+  get: () => {
+    if (!zmap) {
+      throw new Error('Initialise ZIndex with ZIndex.setVars().')
+    }
+    return zmap
+  }
 })
 
 module.exports = ZIndex
