@@ -148,6 +148,12 @@ test('additional prop "important"', (t) => {
   t.end()
 })
 
+test('additional prop "disabled"', (t) => {
+  const rendered = shallow(c({ disabled: true, index: 10 }))
+  t.equal(rendered.props().style.zIndex, undefined)
+  t.end()
+})
+
 test('decorator', (t) => {
   const rendered = shallow(ZIndex.zIndex(100)(() => React.createElement('span')))
   t.equal(rendered.props().style.zIndex, '100')

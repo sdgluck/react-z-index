@@ -112,6 +112,7 @@ Each component should use exactly one of the following props:
 Optional additional props:
 
 - __important__ {Boolean} Set the `!important` flag on zIndex style value
+- __disabled__ {Boolean} Removes the zIndex style if true 
  
 The component will throw if not exactly one of these is given.
 
@@ -120,12 +121,23 @@ Examples:
 ```js
 import ZIndex from 'react-z-index'
 
-<ZIndex
-  important top bottom
-  index={ZIndex.vars.Modal}
-  index={(props) => props.modal.priority * 100}
-  above={100}
-  below={ZIndex.vars.Overlay}></ZIndex>
+// top/bottom w/ multiple props
+<ZIndex top important disabled={this.props.display}>
+  <Modal />
+</ZIndex>
+
+// index Number, String, Function
+<ZIndex index={300}
+        index={ZIndex.vars.Modal}
+        index={(props) => props.modal.priority * 100}>
+  <Modal />
+</ZIndex>
+  
+// above/below Number, String
+<ZIndex above={100}
+        below={ZIndex.vars.Overlay}>
+  <Modal />
+</ZIndex>
 ```
 
 ## Decorator
