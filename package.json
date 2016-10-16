@@ -1,6 +1,6 @@
 {
   "name": "react-z-index",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "Easily manage global component z-index",
   "main": "index.js",
   "jsnext:main": "index.js",
@@ -30,9 +30,14 @@
     "after"
   ],
   "homepage": "https://github.com/sdgluck/react-z-index#readme",
+  "peerDependencies": {
+    "react": "^15.3.2"
+  },
   "devDependencies": {
     "babel-eslint": "^7.0.0",
     "enzyme": "^2.4.1",
+    "react-addons-test-utils": "^15.3.2",
+    "react-dom": "^15.3.2",
     "rewire": "^2.5.2",
     "rimraf": "^2.5.2",
     "standard": "^7.1.2",

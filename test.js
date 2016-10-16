@@ -112,15 +112,21 @@ test('prop "bottom"', (t) => {
   t.end()
 })
 
-test('prop "fn"', (t) => {
-  const rendered = shallow(c({ fn: () => 1000 }))
+test('prop "index" function', (t) => {
+  const rendered = shallow(c({ index: () => 1000 }))
   t.equal(rendered.props().style.zIndex, '1000')
   t.end()
 })
 
-test('prop "index"', (t) => {
+test('prop "index" number', (t) => {
   const rendered = shallow(c({ index: 1000 }))
   t.equal(rendered.props().style.zIndex, '1000')
+  t.end()
+})
+
+test('prop "index" string', (t) => {
+  const rendered = shallow(c({ index: ZIndex.vars.Modal }))
+  t.equal(rendered.props().style.zIndex, String(TOP))
   t.end()
 })
 

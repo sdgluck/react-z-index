@@ -7,9 +7,7 @@ Made with ❤ at <a href="http://www.twitter.com/outlandish">@outlandish</a>
 <a href="http://badge.fury.io/js/react-z-index"><img alt="npm version" src="https://badge.fury.io/js/react-z-index.svg" /></a>
 <a href="http://standardjs.com/"><img src="https://img.shields.io/badge/code%20style-standard-brightgreen.svg" /></a>
 
-Managing the `z-index` of elements is a pain in the butt... :sob:
-
-Not anymore! :heart_eyes:
+Takes the pain out of managing component zIndex across your application! :heart_eyes:
 
 ## Features
 
@@ -105,10 +103,9 @@ ZIndex.setVar('Modal', 400)
 
 Each component should use exactly one of the following props:
 
-- __index__ {String|Number} Set the zIndex explicitly or by reference to a predefined value
+- __index__ {String|Number|Function} Set zIndex explicitly, by reference to predefined value, or derive from props
 - __above__ {String|Number} Set the zIndex to be above the value
 - __below__ {String|Number} Set the zIndex to be below the value
-- __fn__ {Function} Derive the zIndex
 - __top__ {Boolean} Set the zIndex to be above all other ZIndex components
 - __bottom__ {Boolean} Set the zIndex to be below all other ZIndex components
 
@@ -118,15 +115,17 @@ Optional additional props:
  
 The component will throw if not exactly one of these is given.
 
-Example:
+Examples:
 
 ```js
+import ZIndex from 'react-z-index'
+
 <ZIndex
   important top bottom
   index={ZIndex.vars.Modal}
+  index={(props) => props.modal.priority * 100}
   above={100}
-  below={ZIndex.vars.Overlay}
-  fn={(props) => props.modal.priority * 100}></ZIndex>
+  below={ZIndex.vars.Overlay}></ZIndex>
 ```
 
 ## Decorator
@@ -152,6 +151,8 @@ Returns a React component.
 Example:
 
 ```js
+import { zIndex } from 'react-z-index'
+
 @zIndex(ZIndex.vars.Modal)
 return class Modal extends Component {
   render () {
