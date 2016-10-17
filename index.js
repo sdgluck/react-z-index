@@ -256,7 +256,7 @@ ZIndex.setVar = function setVar (name, value) {
     throw new Error(`Expecting name to be string, got "${typeof name}".`)
   } else if (typeof value !== 'number') {
     throw new Error(`Expecting value to be number, got "${typeof value}".`)
-  } else if (ZIndex.vars() && ZIndex.vars()[name]) {
+  } else if (ZIndex.vars && ZIndex.vars[name]) {
     throw new Error(`Var with name "${name}" already set.`)
   }
 
@@ -278,11 +278,14 @@ ZIndex.__clear__ = function clear () {
   zmap = null
 }
 
-ZIndex.vars = function vars () {
-  if (!zmap) {
-    throw new Error('Initialise ZIndex with ZIndex.setVars() first.')
+Object.defineProperty(ZIndex, 'vars', {
+  enumerable: true,
+  get: () => {
+    if (!zmap) {
+      throw new Error('Initialise ZIndex with ZIndex.setVars() first.')
+    }
+    return zmap
   }
-  return zmap
-}
+})
 
 module.exports = ZIndex

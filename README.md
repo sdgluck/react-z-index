@@ -57,7 +57,7 @@ Optionally initialise `react-z-index` with a map of names to zIndex values.
 - [__opts.step__] {Number} _(optional)_ Generated index step (default: `10`)
 - [__opts.warnDuplicate__] {Boolean} _(optional)_ Warn if zIndex value used more than once (default: `true`)
 
-Vars are made available at `ZIndex.vars()`, e.g. `ZIndex.vars().Modal`.
+Vars are made available at `ZIndex.vars`, e.g. `ZIndex.vars.Modal`.
 
 ```js
 // Explicit zIndex values
@@ -132,7 +132,7 @@ import ZIndex from 'react-z-index'
 </ZIndex>
   
 // e.g. place component underneath something else using "below"
-<ZIndex below={ZIndex.vars().Overlay}>
+<ZIndex below={ZIndex.vars.Overlay}>
   <Modal />
 </ZIndex>
 ```
@@ -153,7 +153,7 @@ When `value` is...
     
 - a `String`, sets the zIndex of a component by reference to a predefined var:
 
-    `@zIndex(ZIndex.vars().Modal)`
+    `@zIndex(ZIndex.vars.Modal)`
     
 Returns a React component.
 
@@ -162,7 +162,7 @@ Example:
 ```js
 import { zIndex } from 'react-z-index'
 
-@zIndex(ZIndex.vars().Modal)
+@zIndex(ZIndex.vars.Modal)
 return class Modal extends Component {
   render () {
     return (
