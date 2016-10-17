@@ -33,6 +33,7 @@ const PROP_TYPES = {
 const indexes = []
 
 // zIndex name=>index map
+// Initialised when vars are declared by consumer
 let zmap = null
 
 // UID
@@ -201,7 +202,13 @@ ZIndex.zIndex = function zIndexDecorator (zIndex) {
     [propName]: zIndex
   }
 
-  return (target) => React.createElement(ZIndex, props, [target])
+  return (target) => {
+    return class ZIndexWrapper extends React.Component {
+      render () {
+        return React.createElement(ZIndex, props, target)
+      }
+    }
+  }
 }
 
 // ---
@@ -249,7 +256,7 @@ ZIndex.setVar = function setVar (name, value) {
     throw new Error(`Expecting name to be string, got "${typeof name}".`)
   } else if (typeof value !== 'number') {
     throw new Error(`Expecting value to be number, got "${typeof value}".`)
-  } else if (ZIndex.vars && ZIndex.vars[name]) {
+  } else if (ZIndex.vars() && ZIndex.vars()[name]) {
     throw new Error(`Var with name "${name}" already set.`)
   }
 
@@ -271,14 +278,11 @@ ZIndex.__clear__ = function clear () {
   zmap = null
 }
 
-Object.defineProperty(ZIndex, 'vars', {
-  enumerable: true,
-  get: () => {
-    if (!zmap) {
-      throw new Error('Initialise ZIndex with ZIndex.setVars() first.')
-    }
-    return zmap
+ZIndex.vars = function vars () {
+  if (!zmap) {
+    throw new Error('Initialise ZIndex with ZIndex.setVars() first.')
   }
-})
+  return zmap
+}
 
 module.exports = ZIndex
