@@ -121,21 +121,18 @@ Examples:
 ```js
 import ZIndex from 'react-z-index'
 
-// top/bottom w/ multiple props
+// e.g. toggle component at top of document using "top", "important", "disabled"
 <ZIndex top important disabled={this.props.display}>
   <Modal />
 </ZIndex>
 
-// index Number, String, Function
-<ZIndex index={300}
-        index={ZIndex.vars.Modal}
-        index={(props) => props.modal.priority * 100}>
+// e.g. place component at derived zIndex using "index"
+<ZIndex index={(props) => props.modal.priority * 100}>
   <Modal />
 </ZIndex>
   
-// above/below Number, String
-<ZIndex above={100}
-        below={ZIndex.vars.Overlay}>
+// e.g. place component underneath something else using "below"
+<ZIndex below={ZIndex.vars.Overlay}>
   <Modal />
 </ZIndex>
 ```
