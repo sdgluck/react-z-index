@@ -30,7 +30,7 @@ ZIndex.__set__({
 })
 
 test('throws if accessing vars before initialised', (t) => {
-  t.throws(() => ZIndex.vars(), /initialise/i)
+  t.throws(() => ZIndex.vars, /initialise/i)
   t.end()
 })
 
@@ -40,9 +40,9 @@ test('initialise values map w/ array', (t) => {
     ['Overlay', 15],
     'Modal'
   ])
-  t.equal(ZIndex.vars().Modal, 10)
-  t.equal(ZIndex.vars().Overlay, 15)
-  t.equal(ZIndex.vars().Toppest, 20)
+  t.equal(ZIndex.vars.Modal, 10)
+  t.equal(ZIndex.vars.Overlay, 15)
+  t.equal(ZIndex.vars.Toppest, 20)
   t.end()
 })
 
@@ -72,8 +72,8 @@ test('initialise values map w/ object', (t) => {
     Modal: TOP = 200,
     Overlay: 100
   })
-  t.equal(ZIndex.vars().Modal, 200)
-  t.equal(ZIndex.vars().Overlay, 100)
+  t.equal(ZIndex.vars.Modal, 200)
+  t.equal(ZIndex.vars.Overlay, 100)
   t.end()
 })
 
@@ -84,7 +84,7 @@ test('throws if setVars called more than once', (t) => {
 
 test('can add value with setVar', (t) => {
   ZIndex.setVar('Backdrop', BOTTOM = 50)
-  t.equal(ZIndex.vars().Backdrop, 50)
+  t.equal(ZIndex.vars.Backdrop, 50)
   t.end()
 })
 
@@ -129,26 +129,26 @@ test('prop "index" number', (t) => {
 })
 
 test('prop "index" string', (t) => {
-  const rendered = shallow(c({ index: ZIndex.vars().Modal }))
+  const rendered = shallow(c({ index: ZIndex.vars.Modal }))
   t.equal(rendered.props().style.zIndex, String(TOP))
   t.end()
 })
 
 test('prop "above"', (t) => {
-  const rendered = shallow(c({ above: ZIndex.vars().Modal }))
-  t.equal(rendered.props().style.zIndex, String(ZIndex.vars().Modal + 1))
+  const rendered = shallow(c({ above: ZIndex.vars.Modal }))
+  t.equal(rendered.props().style.zIndex, String(ZIndex.vars.Modal + 1))
   t.end()
 })
 
 test('prop "below"', (t) => {
-  const rendered = shallow(c({ below: ZIndex.vars().Modal }))
-  t.equal(rendered.props().style.zIndex, String(ZIndex.vars().Modal - 1))
+  const rendered = shallow(c({ below: ZIndex.vars.Modal }))
+  t.equal(rendered.props().style.zIndex, String(ZIndex.vars.Modal - 1))
   t.end()
 })
 
 test('additional prop "important"', (t) => {
-  const rendered = shallow(c({ important: true, below: ZIndex.vars().Modal }))
-  t.equal(rendered.props().style.zIndex, (ZIndex.vars().Modal - 1) + ' !important')
+  const rendered = shallow(c({ important: true, below: ZIndex.vars.Modal }))
+  t.equal(rendered.props().style.zIndex, (ZIndex.vars.Modal - 1) + ' !important')
   t.end()
 })
 
