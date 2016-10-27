@@ -184,7 +184,8 @@ If you would like to use only the map of zIndex values you can do that too.
 ```js
 import ZIndex from 'react-z-index'
 
-// Inform lib of the value so we can pick it up elsewhere in the app
+// Inform lib of the value so we can pick it up 
+// elsewhere in the app as ZIndex.vars.Modal
 const zIndex = ZIndex.setVar('Modal', 100)
 
 class Modal extends Component {
