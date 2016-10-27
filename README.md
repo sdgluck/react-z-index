@@ -122,6 +122,8 @@ Examples:
 ```js
 import ZIndex from 'react-z-index'
 
+ZIndex.setVars({ Overlay: 100 })
+
 // e.g. toggle component at top of document using "top", "important", "disabled"
 <ZIndex top important disabled={this.props.display}>
   <Modal />
@@ -133,7 +135,7 @@ import ZIndex from 'react-z-index'
 </ZIndex>
   
 // e.g. place component underneath something else using "below"
-<ZIndex below={ZIndex.vars.Overlay}>
+<ZIndex below={ZIndex.vars.Overlay}> // style['z-index'] => 99
   <Modal />
 </ZIndex>
 ```
@@ -182,7 +184,8 @@ If you would like to use only the map of zIndex values you can do that too.
 ```js
 import ZIndex from 'react-z-index'
 
-// Inform lib of the value so we can pick it up elsewhere in the app
+// Inform lib of the value so we can pick it up 
+// elsewhere in the app as ZIndex.vars.Modal
 const zIndex = ZIndex.setVar('Modal', 100)
 
 class Modal extends Component {
@@ -199,7 +202,7 @@ class Modal extends Component {
 All pull requests and issues welcome!
 
 If you're not sure how to contribute, check out Kent C. Dodds'
-[great video tutorials on egghead.io](https://egghead.io/lessons/javascript-identifying-how-to-contribute-to-an-open-source-project-on-github)!
+[great video tutorials on egghead.io](http://bit.ly/2aVzthz)!
 
 ## Author & License
 
