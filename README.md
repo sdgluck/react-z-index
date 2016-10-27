@@ -199,7 +199,7 @@ class Modal extends Component {
 All pull requests and issues welcome!
 
 If you're not sure how to contribute, check out Kent C. Dodds'
-[great video tutorials on egghead.io](https://egghead.io/lessons/javascript-identifying-how-to-contribute-to-an-open-source-project-on-github)!
+[great video tutorials on egghead.io](http://bit.ly/2aVzthz)!
 
 ## Author & License
 
