@@ -43,7 +43,7 @@ import ZIndex, { zIndex } from 'react-z-index'
 ```js
 // CommonJS
 var ZIndex = require('react-z-index')
-var zIndex = ZIndex.zIndex
+var zIndex = require('react-z-index/decorator')
 ```
 
 ## API

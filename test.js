@@ -11,8 +11,8 @@ const mount = require('enzyme').mount
 
 const ZIndex = rewire('./index')
 
-const c = (props) => {
-  return React.createElement(ZIndex, props)
+const c = (props, child) => {
+  return React.createElement(ZIndex, props, child)
 }
 
 let TOP
@@ -159,7 +159,13 @@ test('additional prop "disabled"', (t) => {
 })
 
 test('decorator', (t) => {
-  const rendered = mount(React.createElement(ZIndex.zIndex(100)(null)))
+  const component = React.createElement(
+    ZIndex.zIndex(100)(
+      React.createElement('span')
+    ), { style: { color: 'red' } }
+  )
+  const rendered = mount(component)
   t.equal(rendered.find(ZIndex).props().index, 100)
+  t.equal(rendered.find(ZIndex).childAt(0).props().style.color, 'red')
   t.end()
 })

@@ -167,17 +167,9 @@ class ZIndex extends React.Component {
   }
 
   render () {
-    const position = 'relative'
     const zIndex = this.disabled ? undefined : this.zIndex + (this.props.important ? ' !important' : '')
-    const cleanProps = Object.assign({}, this.props)
-    const style = Object.assign({}, { position, zIndex }, this.props.style)
-    const props = Object.assign({}, cleanProps, { style })
-
-    delete props[this.prop]
-    delete props.important
-    delete props.disabled
-
-    return React.createElement('div', props)
+    const zIndexProps = { style: { zIndex, position: 'relative' } }
+    return React.createElement('div', zIndexProps, this.props.children)
   }
 }
 
@@ -205,7 +197,7 @@ ZIndex.zIndex = function zIndexDecorator (zIndex) {
   return (target) => {
     return class ZIndexWrapper extends React.Component {
       render () {
-        return React.createElement(ZIndex, props, target)
+        return React.createElement(ZIndex, props, React.cloneElement(target, this.props))
       }
     }
   }
