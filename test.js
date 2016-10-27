@@ -6,8 +6,8 @@ const test = require('tape')
 const rewire = require('rewire')
 const React = require('react')
 const enzyme = require('enzyme')
-const shallow = require('enzyme').shallow
-const mount = require('enzyme').mount
+const shallow = enzyme.shallow
+const mount = enzyme.mount
 
 const ZIndex = rewire('./index')
 
