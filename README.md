@@ -37,7 +37,8 @@ The library uses ES2015 features so should be used in conjunction with Babel and
 
 ```js
 // ES2015
-import ZIndex, { zIndex } from 'react-z-index'
+import ZIndex from 'react-z-index' // component, util
+import { zIndex } from 'react-z-index' // decorator
 ```
 
 ```js
