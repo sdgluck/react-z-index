@@ -181,7 +181,7 @@ ZIndex.propTypes = PROP_TYPES
 
 ZIndex.zIndex = function zIndexDecorator (zIndex) {
   const propName = {
-    function: 'fn',
+    function: 'index',
     number: 'index',
     string: 'index'
   }[typeof zIndex]
