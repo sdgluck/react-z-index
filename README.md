@@ -9,6 +9,8 @@ Made with ❤ at <a href="http://www.twitter.com/outlandish">@outlandish</a>
 
 Takes the pain out of managing component zIndex across your application! :heart_eyes:
 
+[Check out an example on JSBin](http://sdgluck.jsbin.com/quzifep/1/edit?html,js,output).
+
 ## Features
 
 - Manage zIndex values in one place
