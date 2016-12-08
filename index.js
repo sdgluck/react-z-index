@@ -1,3 +1,4 @@
+/* global define:false, self:false */
 'use strict'
 
 const React = require('react')
