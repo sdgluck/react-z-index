@@ -1,6 +1,6 @@
 {
   "name": "react-z-index",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Easily manage global component z-index",
   "main": "index.js",
   "jsnext:main": "index.js",

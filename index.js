@@ -175,7 +175,7 @@ class ZIndex extends React.Component {
 
   render () {
     const zIndex = this.disabled ? undefined : this.zIndex + (this.props.important ? ' !important' : '')
-    const zIndexProps = { style: { zIndex, position: 'relative' } }
+    const zIndexProps = { style: Object.assign({ zIndex, position: 'relative' }, this.props.style || {}) }
     return React.createElement('div', zIndexProps, this.props.children)
   }
 }
