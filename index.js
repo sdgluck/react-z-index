@@ -30,7 +30,7 @@ const PROP_TYPES = {
 }
 
 // Observed zIndex values, used to discover duplicates
-const indexes = []
+let indexes = []
 
 // zIndex name=>index map
 // Initialised when vars are declared by consumer
@@ -39,12 +39,16 @@ let zmap = null
 // UID
 let id = 0
 
+function ZIndexError (msg) {
+  return new Error('react-z-index: ' + msg)
+}
+
 function makeZIndex (propName, value, props) {
   if (
     (propName === 'above' || propName === 'below') &&
     (typeof value === 'string' && !zmap[value])
   ) {
-    throw new Error(`Unrecognised zIndex name "${value}".`)
+    throw ZIndexError(`Unrecognised zIndex name "${value}".`)
   }
 
   switch (propName) {
@@ -53,7 +57,7 @@ function makeZIndex (propName, value, props) {
         case 'function':
           const index = value(props)
           if (typeof index !== 'number' && typeof index !== 'string') {
-            throw new Error(`Derived zIndex must be number or string, got "${typeof index}".`)
+            throw ZIndexError(`Derived zIndex must be number or string, got "${typeof index}".`)
           }
           return index
 
@@ -62,7 +66,7 @@ function makeZIndex (propName, value, props) {
 
         case 'string':
           if (!zmap[value]) {
-            throw new Error(`Unrecognised zIndex name "${value}".`)
+            throw ZIndexError(`Unrecognised zIndex name "${value}".`)
           }
           return zmap[value]
       }
@@ -71,12 +75,12 @@ function makeZIndex (propName, value, props) {
     case 'above':
       if (typeof value === 'string') return zmap[value] + 1
       else if (typeof value === 'number') return value + 1
-      throw new Error(`Expecting string or number for "above", got ${typeof value}.`)
+      throw ZIndexError(`Expecting string or number for "above", got ${typeof value}.`)
 
     case 'below':
       if (typeof value === 'string') return zmap[value] - 1
       else if (typeof value === 'number') return value - 1
-      throw new Error(`Expecting string or number for "below", got ${typeof value}.`)
+      throw ZIndexError(`Expecting string or number for "below", got ${typeof value}.`)
 
     case 'top': {
       const keys = Object.keys(zmap)
@@ -97,7 +101,7 @@ function makeZIndex (propName, value, props) {
     }
 
     default:
-      throw new Error(`Could not make zIndex, unexpected arguments: prop=${propName} value=${value}.`)
+      throw ZIndexError(`Could not make zIndex, unexpected arguments: prop=${propName} value=${value}.`)
   }
 }
 
@@ -106,14 +110,14 @@ function generateZMap (array, opts) {
 
   return array.reverse().reduce((zmap, name, i) => {
     if (typeof name !== 'string' && !Array.isArray(name)) {
-      throw new Error(`Expecting var to be array or string, got "${typeof name}".`)
+      throw ZIndexError(`Expecting var to be array or string, got "${typeof name}".`)
     }
 
     if (Array.isArray(name)) {
       if (typeof name[0] !== 'string') {
-        throw new Error(`Expecting var name to be string, got "${typeof name[0]}".`)
+        throw ZIndexError(`Expecting var name to be string, got "${typeof name[0]}".`)
       } else if (typeof name[1] !== 'number') {
-        throw new Error(`Expecting var index to be number, got "${typeof name[0]}".`)
+        throw ZIndexError(`Expecting var index to be number, got "${typeof name[0]}".`)
       }
 
       zmap[name[0]] = name[1]
@@ -159,7 +163,7 @@ class ZIndex extends React.Component {
       if (!ret && typeof props[prop] !== 'undefined') {
         return prop
       } else if ((ret && props[prop]) || (!ret && legalProps.length === i + 1)) {
-        throw new Error(`Expecting exactly one prop out of "${legalProps.join('", "')}".`)
+        throw ZIndexError(`Expecting exactly one prop out of "${legalProps.join('", "')}".`)
       } else {
         return ret
       }
@@ -180,27 +184,15 @@ ZIndex.propTypes = PROP_TYPES
 // ---
 
 ZIndex.zIndex = function zIndexDecorator (zIndex) {
-  const propName = {
-    function: 'index',
-    number: 'index',
-    string: 'index'
-  }[typeof zIndex]
-
-  if (!propName) {
-    throw new Error(`Expecting zIndex to be string, number, or function, got "${typeof zIndex}".`)
+  if (!['function', 'number', 'string'].indexOf(typeof zIndex) === -1) {
+    throw ZIndexError(`Expecting zIndex to be string, number, or function, got "${typeof zIndex}".`)
   }
 
-  const props = {
-    [propName]: zIndex
-  }
-
-  return (target) => {
-    return class ZIndexWrapper extends React.Component {
-      render () {
-        return React.createElement(ZIndex, props, React.cloneElement(target, this.props))
-      }
-    }
-  }
+  return (target) => (props) => React.createElement(
+    ZIndex,
+    { index: zIndex },
+    React.cloneElement(target, props)
+  )
 }
 
 // ---
@@ -215,14 +207,14 @@ ZIndex.setVars = function setVars (vars, opts) {
   }, opts)
 
   if (zmap) {
-    throw new Error('Called ZIndex.setVars() more than once.')
+    throw ZIndexError('Called ZIndex.setVars() more than once.')
   } else if (typeof vars !== 'object' && !Array.isArray(vars)) {
-    throw new Error(`Expecting vars to be object or array, got "${typeof vars}".`)
+    throw ZIndexError(`Expecting vars to be object or array, got "${typeof vars}".`)
   } else if (Array.isArray(vars)) {
     if (opts.start && typeof opts.start !== 'number') {
-      throw new Error(`Expecting start to be number, got "${typeof opts.start}".`)
+      throw ZIndexError(`Expecting start to be number, got "${typeof opts.start}".`)
     } else if (opts.step && typeof opts.step !== 'number') {
-      throw new Error(`Expecting step to be number, got "${typeof opts.start}".`)
+      throw ZIndexError(`Expecting step to be number, got "${typeof opts.start}".`)
     }
   }
 
@@ -245,11 +237,11 @@ ZIndex.setVars = function setVars (vars, opts) {
 
 ZIndex.setVar = function setVar (name, value) {
   if (typeof name !== 'string') {
-    throw new Error(`Expecting name to be string, got "${typeof name}".`)
+    throw ZIndexError(`Expecting name to be string, got "${typeof name}".`)
   } else if (typeof value !== 'number') {
-    throw new Error(`Expecting value to be number, got "${typeof value}".`)
+    throw ZIndexError(`Expecting value to be number, got "${typeof value}".`)
   } else if (ZIndex.vars && ZIndex.vars[name]) {
-    throw new Error(`Var with name "${name}" already set.`)
+    throw ZIndexError(`Var with name "${name}" already set.`)
   }
 
   if (indexes.indexOf(value) !== -1) {
@@ -265,8 +257,8 @@ ZIndex.setVar = function setVar (name, value) {
   return value
 }
 
-// Clear the zIndex name=>index map
 ZIndex.__clear__ = function clear () {
+  indexes = []
   zmap = null
 }
 
@@ -274,10 +266,16 @@ Object.defineProperty(ZIndex, 'vars', {
   enumerable: true,
   get: () => {
     if (!zmap) {
-      throw new Error('Initialise ZIndex with ZIndex.setVars() first.')
+      throw ZIndexError('Initialise ZIndex with ZIndex.setVars() first.')
     }
     return zmap
   }
 })
 
-module.exports = ZIndex
+if (typeof define === 'function' && define.amd) {
+  define('ZIndex', function () { return ZIndex })
+} else if (typeof module === 'object' && module.exports) {
+  module.exports = ZIndex
+} else {
+  self.ZIndex = ZIndex
+}
