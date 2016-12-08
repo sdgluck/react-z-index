@@ -143,6 +143,8 @@ class ZIndex extends React.Component {
   constructor (props, context) {
     super(props, context)
 
+    zmap = zmap || {}
+
     this._id = id++
     this.prop = this.getProp(props)
     this.disabled = typeof this.props.disabled === 'boolean' ? this.props.disabled : false
@@ -265,12 +267,7 @@ ZIndex.__clear__ = function clear () {
 
 Object.defineProperty(ZIndex, 'vars', {
   enumerable: true,
-  get: () => {
-    if (!zmap) {
-      throw ZIndexError('Initialise ZIndex with ZIndex.setVars() first.')
-    }
-    return zmap
-  }
+  get: () => zmap
 })
 
 if (typeof define === 'function' && define.amd) {
