@@ -1,7 +1,7 @@
 /* global define:false, self:false */
 'use strict'
 
-const React = self.React ? React : require('react')
+const React = self.React || require('react')
 
 // Additional props
 const MODIFIER_PROPS = [
