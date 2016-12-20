@@ -23,6 +23,8 @@ Takes the pain out of managing component zIndex across your application! :heart_
     - manually; define your own zIndex values entirely, or
     - both!
     
+Note: `react-z-index` does not override [stacking contexts](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning/Understanding_z_index/The_stacking_context).
+
 ## Install
 
 ```sh
