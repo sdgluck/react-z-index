@@ -31,21 +31,25 @@
   ],
   "homepage": "https://github.com/sdgluck/react-z-index#readme",
   "peerDependencies": {
-    "react": "^15.3.2"
+    "react": "^16.7.0"
   },
   "devDependencies": {
-    "babel-eslint": "^7.0.0",
-    "enzyme": "^2.4.1",
-    "jsdom": "^9.8.0",
-    "jsdom-global": "^2.1.0",
-    "react-addons-test-utils": "^15.3.2",
-    "react-dom": "^15.3.2",
-    "rewire": "^2.5.2",
+    "babel-eslint": "^10.0.1",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
+    "jsdom": "^9.12.0",
+    "jsdom-global": "^2.1.1",
+    "react": "^16.7.0",
+    "react-dom": "^16.7.0",
+    "rewire": "^4.0.1",
     "rimraf": "^2.5.2",
-    "standard": "^7.1.2",
+    "standard": "^12.0.1",
     "tape": "^4.5.1"
   },
   "standard": {
     "parser": "babel-eslint"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.2"
   }
 }

@@ -6,6 +6,8 @@ const test = require('tape')
 const rewire = require('rewire')
 const React = require('react')
 const enzyme = require('enzyme')
+const Adapter = require('enzyme-adapter-react-16')
+
 const shallow = enzyme.shallow
 const mount = enzyme.mount
 
@@ -14,6 +16,8 @@ const ZIndex = rewire('./index')
 const c = (props, child) => {
   return React.createElement(ZIndex, props, child)
 }
+
+enzyme.configure({ adapter: new Adapter() })
 
 let TOP
 let BOTTOM
@@ -161,6 +165,6 @@ test('decorator', (t) => {
   )
   const rendered = mount(component)
   t.equal(rendered.find(ZIndex).props().index, 100)
-  t.equal(rendered.find(ZIndex).childAt(0).props().style.color, 'red')
+  t.equal(rendered.find(ZIndex).childAt(0).childAt(0).props().style.color, 'red')
   t.end()
 })

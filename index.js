@@ -2,6 +2,7 @@
 'use strict'
 
 const React = self.React || require('react')
+const PropTypes = require('prop-types')
 
 // Additional props
 const MODIFIER_PROPS = [
@@ -11,22 +12,22 @@ const MODIFIER_PROPS = [
 
 // Available ZIndex component properties
 const PROP_TYPES = {
-  important: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  top: React.PropTypes.bool,
-  bottom: React.PropTypes.bool,
-  index: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string,
-    React.PropTypes.func
+  important: PropTypes.bool,
+  disabled: PropTypes.bool,
+  top: PropTypes.bool,
+  bottom: PropTypes.bool,
+  index: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string,
+    PropTypes.func
   ]),
-  above: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  above: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ]),
-  below: React.PropTypes.oneOfType([
-    React.PropTypes.number,
-    React.PropTypes.string
+  below: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
   ])
 }
 
